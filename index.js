@@ -67,3 +67,20 @@ document.querySelector("div.operations__tab-container").addEventListener("click"
         document.querySelector(`div.operations__content--${e.target.closest("button").dataset.tab}`).classList.add("operations__content--active");
     }
 });
+
+
+
+/*
+Cand punem mouse-ul peste unul din elementele de sus: Logo-ul "BANKIST" sau unul dintre cele 4 butoane: "Features", ..., "Open account", butonul peste care suntem cu mouse-ul va ramane la o opacitate de 1, in timp ce restul vor scadea la o opacitate de 0,5.
+*/
+document.querySelector("nav.nav").addEventListener("mouseover", function(e) {
+    let allElements = [document.querySelector("img.nav__logo") ,...document.querySelectorAll("a.nav__link")];
+    if (allElements.includes(e.target)) {
+        allElements.forEach(function(elem) { elem.style.opacity = "0.5"; });
+        e.target.style.opacity = "1";
+    }
+});
+document.querySelector("nav.nav").addEventListener("mouseout", function(e) {
+    let allElements = [document.querySelector("img.nav__logo") ,...document.querySelectorAll("a.nav__link")];
+    if (allElements.includes(e.target)) allElements.forEach(function(elem) { elem.style.opacity = "1"; });
+});
