@@ -45,8 +45,25 @@ document.querySelector("ul.nav__links").addEventListener("click", function(e) {
     e.preventDefault();
     if (e.target.closest("li.nav__item")) {
         if (!e.target.classList.contains("nav__link--btn")) {
-            let hreff = e.target.getAttribute("href");
-            document.querySelector(`section${hreff}`).scrollIntoView({behavior: "smooth"});
+            let id = e.target.getAttribute("href");
+            document.querySelector(`section${id}`).scrollIntoView({behavior: "smooth"});
         }
+    }
+});
+
+
+
+/*
+TABBED COMPONENT:
+In sectiunea cu id-ul "section--2"("Operations" section), cand dam click pe unul dintre butoanele "01 Instant Transfers", "02 Instant Loans" sau "03 Instant Closing":
+   - Butonul apasat se va ridica putin in sus, in timp ce restul vor sta mai jos.
+   - Sub butoane va aparea fereastra corespunzatoare butonului apasat.
+*/
+document.querySelector("div.operations__tab-container").addEventListener("click", function(e) {
+    if (e.target.closest("button")) {
+        document.querySelectorAll("button.btn.operations__tab").forEach(function(elem) { elem.classList.remove("operations__tab--active"); });
+        e.target.closest("button").classList.add("operations__tab--active");
+        document.querySelectorAll("div.operations__content").forEach(function(elem) { elem.classList.remove("operations__content--active"); });
+        document.querySelector(`div.operations__content--${e.target.closest("button").dataset.tab}`).classList.add("operations__content--active");
     }
 });
