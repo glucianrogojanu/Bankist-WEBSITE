@@ -35,3 +35,18 @@ overlay.addEventListener("click", closeModal);
 document.querySelector("button.btn--text").addEventListener("click", function() {
     document.getElementById("section--1").scrollIntoView({behavior: "smooth"});
 });
+
+
+
+/*
+Daca apasam pe unul din cele 3 butoane de sus: "Features", "Operations" sau "Testimonials", ne va scrola automat la sectiunea corespunzatoare. ("Features"--->Scrol la sectiunea cu id-ul "section--1" / "Operations"---> "section--2" / "Testimonials"---> "section--3")
+ */
+document.querySelector("ul.nav__links").addEventListener("click", function(e) {
+    e.preventDefault();
+    if (e.target.closest("li.nav__item")) {
+        if (!e.target.classList.contains("nav__link--btn")) {
+            let hreff = e.target.getAttribute("href");
+            document.querySelector(`section${hreff}`).scrollIntoView({behavior: "smooth"});
+        }
+    }
+});
