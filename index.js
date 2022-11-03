@@ -26,6 +26,52 @@ document.querySelector("div.operations__tab-container").addEventListener("click"
 
 
 
+/* 
+SLIDER COMPONENT:
+    - Butoanele(Cele 3 puncte de sub slider): Te duce pe slide-ul corespunzator butonului apasat.
+    - Sageata spre dreapta si sageata spre stanga(Butoanele de la tastatura, NU cele de pe site): Apesi pe sageata din dreapta, te duce la slide-ul urmator. Apesi pe sageata din stanga, te duce la slide-ul precedent.
+    - Butoanele(Cele de pe site, cu sageata la dreapta si sageata la stanga): Apesi pe butonul cu sageata la dreapta, te duce la slide-ul urmator. Apesi pe butonul cu sageata la stanga, te duce la slide-ul precedent.
+ */
+    const slider = document.querySelector(".slider");
+    const slides = document.querySelectorAll(".slide");
+    const btnLeft = document.querySelector("button.slider__btn--left");
+    const btnRight = document.querySelector("button.slider__btn--right");
+    const dotsContainer = document.querySelector("div.dots");
+    let curSlide = 0;
+    
+    const goToSlide = function(slide) {  //Mergi la slide-ul ce il scriem noi aici.
+        slides.forEach(function(elem, index) { elem.style.transform = `translateX(${100 * (index - slide)}%)`; });
+        document.querySelectorAll("button.dots__dot").forEach(function(elem) { elem.classList.remove("dots__dot--active"); });
+        document.querySelector(`button.dots__dot[data-slide="${slide}"]`).classList.add("dots__dot--active");
+    };
+    const nextSlide = function() {  //Mergi la urmatorul slide.
+        curSlide = (curSlide === (slides.length - 1)) ? 0 : curSlide + 1;
+        goToSlide(curSlide);
+    };
+    const prevSlide = function() {  //Mergi la precedentul slide.
+        curSlide = (curSlide === 0) ? slides.length - 1 : curSlide - 1;
+        goToSlide(curSlide);
+    };
+    
+    slides.forEach(function(elem, index) {
+        dotsContainer.insertAdjacentHTML("beforeend", `<button class="dots__dot" data-slide="${index}"></button>`);
+    });
+    goToSlide(0);
+    
+    btnRight.addEventListener("click", nextSlide);  //Cand dam click pe butonul din dreapta sa ne duca slider-ul in dreapta.
+    btnLeft.addEventListener("click", prevSlide);  //Cand dam click pe butonul din stanga sa ne duca slider-ul in stanga.
+    document.addEventListener("keydown", function(e) {  //Cand dam click la tastatura pe sageata din stanga sau din dreapta sa ne duca slider-ul in acea parte.
+        if (e.key === "ArrowLeft") prevSlide();
+        if (e.key === "ArrowRight") nextSlide();
+    });
+    dotsContainer.addEventListener("click", function(e) {  //Cand dam click pe unul din butoane(Partea de jos), sa ne mute automat slider-ul acolo.
+        if (e.target.closest("button.dots__dot")) {
+            goToSlide(e.target.closest("button.dots__dot").dataset.slide);
+        }
+    });
+
+
+
 /*
 Cand punem mouse-ul peste unul din elementele de sus: Logo-ul "BANKIST" sau unul dintre cele 4 butoane: "Features", ..., "Open account", butonul peste care suntem cu mouse-ul va ramane la o opacitate de 1, in timp ce restul vor scadea la o opacitate de 0,5.
 */
