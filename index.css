@@ -38,7 +38,7 @@ body {
 }
 .section--hidden {
     opacity: 0;
-    transform: translateY(8rem);
+    transform: translateY(10rem);
 }
 .section__title {
     max-width: 80rem;
