@@ -5,6 +5,7 @@ const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
+const nav = document.querySelector("nav.nav");
 
 
 
@@ -73,14 +74,31 @@ document.querySelector("div.operations__tab-container").addEventListener("click"
 /*
 Cand punem mouse-ul peste unul din elementele de sus: Logo-ul "BANKIST" sau unul dintre cele 4 butoane: "Features", ..., "Open account", butonul peste care suntem cu mouse-ul va ramane la o opacitate de 1, in timp ce restul vor scadea la o opacitate de 0,5.
 */
-document.querySelector("nav.nav").addEventListener("mouseover", function(e) {
+nav.addEventListener("mouseover", function(e) {
     let allElements = [document.querySelector("img.nav__logo") ,...document.querySelectorAll("a.nav__link")];
     if (allElements.includes(e.target)) {
         allElements.forEach(function(elem) { elem.style.opacity = "0.5"; });
         e.target.style.opacity = "1";
     }
 });
-document.querySelector("nav.nav").addEventListener("mouseout", function(e) {
+nav.addEventListener("mouseout", function(e) {
     let allElements = [document.querySelector("img.nav__logo") ,...document.querySelectorAll("a.nav__link")];
     if (allElements.includes(e.target)) allElements.forEach(function(elem) { elem.style.opacity = "1"; });
 });
+
+
+
+
+/* Elementul <nav> din partea de sus a paginii va deveni "sticky" atat timp cat timp elementul <header> nu va mai fi vizibil deloc. (Atentie: Am scazut 90px din <header>). */
+let fn1 = function(arr) {
+    arr.forEach(function(elem) {
+        elem.isIntersecting ? nav.classList.remove("sticky") : nav.classList.add("sticky");
+    });
+};
+let opt1 = {
+    root: null,
+    threshold: 0,
+    rootMargin: `-${getComputedStyle(nav).height}`
+};
+let io1 = new IntersectionObserver(fn1, opt1);
+io1.observe(document.querySelector("header"));
